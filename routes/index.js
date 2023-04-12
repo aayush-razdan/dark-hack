@@ -11,4 +11,9 @@ router.get("/form", function (req, res) {
   res.render("pages/form", { title: "DARK-HACK" });
 });
 
+/* POST form page. */
+router.post("/form", function (req, res) {
+  res.send(JSON.stringify(req.body));
+});
+
 module.exports = router;
