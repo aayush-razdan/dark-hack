@@ -7,6 +7,9 @@ import re
 import sys
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+import json
+import jsonpickle
+from json import JSONEncoder
 
 def getaddrinfo(*args):
     # It is necessary to use Tor for DNS resolution of Onion websites
@@ -36,8 +39,11 @@ def crawl(url):
     unique_nodes= set()
     for node in found_nodes:
         for link in node:
+            print(link)
             unique_nodes.add(link)
-    return unique_nodes
+    sampleJson = jsonpickle.encode(unique_nodes)
+    print(sampleJson)
+    return sampleJson
 
 def scrape_body(link):
     try:
@@ -62,4 +68,4 @@ def get_title(link):
     return title
 
 if __name__ == "__main__":
-    print(crawl("http://muwgjdckwwmhyi7lj73dspumrxmzuzjvujmtmyrhhbjrgswcakobtfad.onion"))
+    print(crawl("http://juhanurmihxlp77nkq76byazcldy2hlmovfu2epvl5ankdibsot4csyd.onion/search/?q=index+of"))
