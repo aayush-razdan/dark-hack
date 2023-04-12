@@ -10,7 +10,7 @@ def index():
 
 @app.route('/flask/crawl', methods=['POST'])
 def crawl():
-    url = request.form['url']
+    url = request.json['url']
     return darkweb.crawl(url)
 
 @app.route('/flask/scrape_body', methods=['POST'])
