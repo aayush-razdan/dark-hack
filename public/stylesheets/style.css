@@ -1,0 +1,28 @@
+/* html {
+  background: black;
+  height: 100%;
+  overflow: hidden;
+} */
+
+body {
+  background: black;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font: "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+canvas {
+  position: absolute;
+}
+a {
+  color: #00b7ff;
+}
+
+.nav-link {
+  font-size: 2.1vh !important;
+  color: white !important;
+  font-weight: 550 !important;
+}
+.nav-link:hover {
+  color: grey !important;
+}
