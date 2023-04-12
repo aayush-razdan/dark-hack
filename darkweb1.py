@@ -62,6 +62,6 @@ def get_title(link):
 
 if __name__ == "__main__":
     list_of_onions = list(crawl(sys.argv[1]))
-    print(scrape_body(list_of_onions[0]))
+    print(scrape_body(list_of_onions[0]).encode('utf-8'))
     print("Title: ")
-    print(get_title(list_of_onions[0]))
+    print(get_title(list_of_onions[0]).encode('utf-8'))
