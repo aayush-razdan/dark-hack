@@ -38,8 +38,10 @@ a {
 }
 
 .descText {
+  color: #ffffff;
   font-size: 18px;
-  font-weight: 200;
+  font-weight: 400;
+  letter-spacing: 2px;
 }
 
 .nav-link {
