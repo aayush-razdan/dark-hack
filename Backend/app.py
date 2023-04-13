@@ -11,12 +11,13 @@ def index():
 @app.route('/flask/crawl', methods=['POST'])
 def crawl():
     # url = request.json['url']
-    trial = request.args.get('url')
-    return darkweb.crawl(trial)
+    url = request.args.get('url')
+    return darkweb.crawl(url)
 
 @app.route('/flask/scrape_body', methods=['POST'])
 def scrape_body():
-    link = request.json['url']
+    # link = request.json['url']
+    link = request.args.get('url')
     return darkweb.scrape_body(link)
 
 @app.route('/flask/porns', methods=['POST'])
