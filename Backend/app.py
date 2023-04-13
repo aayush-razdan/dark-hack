@@ -29,4 +29,9 @@ def text2():
     text2 = request.form['text']
     return text_process.drug_score(text2)
 
+@app.route('/flask/intelligence', methods=['POST'])
+def intelligence():
+    text3 = request.form['text']
+    return text_process.intelligence(text3)
+
 

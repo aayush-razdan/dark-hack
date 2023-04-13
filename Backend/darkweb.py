@@ -46,15 +46,17 @@ def crawl(url):
     return sampleJson
 
 def scrape_body(link):
-    try:
-        res = requests.get(link)
-        soup = BeautifulSoup(res.content,'html.parser')
-        body = soup.find('body')
-        text = body.text.strip()
-        text_lines = text.split('\n')
-        clean_text = ''.join(text_lines)
-    except:
-        pass
+     # Configuring Socks to use Tor
+    socks.set_default_proxy(socks.SOCKS5, "localhost", 9050)
+    socket.socket = socks.socksocket
+    socket.getaddrinfo = getaddrinfo
+    
+    res = requests.get(link)
+    soup = BeautifulSoup(res.content,'html.parser')
+    body = soup.find('body')
+    text = body.text.strip()
+    text_lines = text.split('\n')
+    clean_text = ''.join(text_lines)
     return clean_text
 
 def get_title(link):
