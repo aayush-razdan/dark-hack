@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ag Grid App</title>
+  <!-- Include the JS for AG Grid -->
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+  <!-- Include the core CSS, this is needed by the grid -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
+  <!-- Include the theme CSS, only need to import the theme you are going to use -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css" />
+  <style>
+    /* Add this rule to make text wrap in cells */
+    .ag-cell {
+      white-space: normal !important;
+      font-size: 16px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- Button to demonstrate calling the grid's API. -->
+  <!-- <button onclick="deselect()">Deselect Rows</button> -->
+  <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
+  <!-- The gid will be the size that this element is given. -->
+  <div id="myGrid" class="ag-theme-alpine" style="height: 800px"></div>
+  <script type="text/javascript">
+    // Function to demonstrate calling grid's API
+    //  function deselect(){
+    //      gridOptions.api.deselectAll()
+    //  }
+    var jsonData = [
+      {
+        "data": "URL",
+        "content": "http://hacktowns3sba2xavxecm23aoocvzciaxirh3vekg2ovzdjgjxedfvqd.onion/"
+      },
+      {
+        "data": "Page",
+        "content": "Hack Town"
+      },
+      {
+        "data": "Content of page",
+        "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
+      },
+      {
+        "data": "Parent Link",
+        "content": "None"
+      },
+      {
+        "data": "Link Status",
+        "content": "Active"
+      }
+    ];
+    // Grid Options are properties passed to the grid
+    const gridOptions = {
+      // each entry here represents one column
+      columnDefs: [
+        { headerName: 'Data', field: 'data' },
+        { headerName: 'Content', field: 'content' }
+      ],
+      rowData: jsonData,
+
+      // default col def properties get applied to all columns
+      defaultColDef: { resizable: true, sortable: true, filter: true },
+
+      rowSelection: 'multiple', // allow rows to be selected
+      animateRows: true, // have rows animate to new positions when sorted
+
+      getRowHeight: function(params) {
+          // calculate the height required to fit the contents of the "Content of page" cell
+          var lineHeight = 20; // assume 20px line height
+          var padding = 20; // assume 20px padding top and bottom
+          var text = params.data.content;
+          var lines = Math.ceil(text.length / 50); // assume each line is 50 characters long
+          var height = lineHeight * lines + padding;
+          return height;
+        },
+
+
+      onGridReady: (event) => event.api.sizeColumnsToFit()
+    };
+
+    // get div to host the grid
+    const eGridDiv = document.getElementById("myGrid");
+    // new grid instance, passing in the hosting DIV and Grid Options
+    new agGrid.Grid(eGridDiv, gridOptions);
+
+       // Fetch data from server
+      //  fetch("../../dummyJsons/data1.json")
+      //  .then(response => response.json())
+      //  .then(data => {
+      //    // load fetched data into grid
+      //    gridOptions.api.setRowData(data);
+      //  });
+  </script>
+</body>
+
+</html>
