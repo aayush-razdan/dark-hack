@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link
+      href="https://unpkg.com/nes.css@latest/css/nes.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="Matrix"></canvas>
+    <div class="container">
+      <div class="p-1"><%- include('../partials/header.ejs'); %></div>
+      <div class="mt-3 mb-3"></div>
+      <div class="container ml-3 mr-3" style="position: absolute">
+        <div class="mt-5 mb-5"></div>
+        <div id="app">
+          <div
+            class="nes-container with-title is-centered"
+            style="border: 1px solid rgba(0, 255, 0, 0.354)"
+          >
+            <p class="title">Raise Request</p>
+            <form @submit.prevent="submit">
+              <div class="nes-field">
+                <label for="ip_field" style="color: #aaaaaa"
+                  >Ip Address/ Phone No.</label
+                >
+                <input
+                  placeholder="Enter the Ip Address/ Phone No."
+                  type="text"
+                  name="ip"
+                  id="ip_field"
+                  class="nes-input"
+                />
+              </div>
+              <div class="nes-field job">
+                <label for="carrier_field" style="color: #aaaaaa"
+                  >Carrier</label
+                >
+                <input
+                  placeholder="Enter the Carrier"
+                  type="text"
+                  name="carrier"
+                  id="carrier_field"
+                  class="nes-input"
+                />
+              </div>
+              <div class="nes-field job">
+                <label for="issue_field" style="color: #aaaaaa">Issue</label>
+                <textarea
+                  placeholder="Enter the Issue"
+                  type="text"
+                  name="issue"
+                  rows="4"
+                  id="issue_field"
+                  class="nes-input"
+                ></textarea>
+              </div>
+
+              <button type="submit" id="button" class="job nes-btn is-primary">
+                Send
+              </button>
+            </form>
+          </div>
+          <dialog class="nes-dialog" id="dialog-default" ref="dialog">
+            <form method="dialog">
+              <section class="character c1">
+                <i class="nes-bcrikko nes-c"></i>
+                <div class="nes-balloon from-left">
+                  <p>Request Raised! Thanks!</p>
+                </div>
+              </section>
+              <section class="character info">
+                <h4 class="topic">
+                  Ip/ Phone: {{ ip }}<span id="name"></span>
+                </h4>
+                <h5>Carrier: {{ carrier }}<span id="gender"></span></h5>
+                <h5>Issue: {{ issue }}<span id="job"></span></h5>
+              </section>
+              <menu class="dialog-menu">
+                <button class="nes-btn is-primary">Confirm</button>
+              </menu>
+            </form>
+          </dialog>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="scripts/rain.js"></script>
+    <script>
+      const App = {
+        data() {
+          return {
+            ip: "",
+            carrier: "",
+            issue: "",
+          };
+        },
+        methods: {
+          async submit(event) {
+            const { ip, carrier, issue } = Object.fromEntries(
+              new FormData(event.target)
+            );
+            this.ip = ip;
+            this.carrier = carrier;
+            this.issue = issue;
+
+            this.$refs.dialog.showModal();
+            console.log(this.$refs.dialog);
+            const js = await fetch("http://localhost:3000/email", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                ip: this.ip,
+                carrier: this.carrier,
+                issue: this.issue,
+              }),
+            });
+            const text = js.text();
+            // this.ip = "";
+            // this.carrier = "";
+            // this.issue = "";
+            console.log("got back", text);
+          },
+        },
+      };
+
+      const app = Vue.createApp(App);
+      app.mount("#app");
+    </script>
+    <style>
+      .job {
+        margin-top: 40px;
+      }
+
+      .c1 {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .nes-balloon {
+        margin-left: 22px;
+      }
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

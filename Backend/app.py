@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/flask', methods=['GET'])
 def index():
-    return "Flask server"
+    return "Hi you have reached Nirman API"
 
 @app.route('/flask/crawl', methods=['POST'])
 def crawl():
@@ -15,11 +15,17 @@ def crawl():
 
 @app.route('/flask/scrape_body', methods=['POST'])
 def scrape_body():
-    link = request.form['link']
+    link = request.json['url']
     return darkweb.scrape_body(link)
 
-@app.route('/flask/text_process', methods=['POST'])
-def text():
-    text = request.form['text']
-    return text_process.porn_score(text)
+@app.route('/flask/porns', methods=['POST'])
+def text1():
+    text1 = request.form['text']
+    return text_process.porn_score(text1)
+
+@app.route('/flask/drugs', methods=['POST'])
+def text2():
+    text2 = request.form['text']
+    return text_process.drug_score(text2)
+
 
