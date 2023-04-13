@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-
+var request = require("request");
 var aws = require("aws-sdk");
 var ses = new aws.SES({ region: "eu-north-1" });
 
@@ -16,7 +16,25 @@ router.get("/form", function (req, res) {
 
 /* POST form page. */
 router.post("/form", function (req, res) {
-  res.send(JSON.stringify(req.body));
+  // res.send(JSON.stringify(req.body));
+  console.log(req.body);
+  options = {
+    uri: `http://127.0.0.1:5000/flask/crawl?url=${req.body.url}`,
+    // json: req.body.url,
+    method: "POST",
+    headers: { "Content-type": "application/json", Accept: "text/plain" },
+  };
+  request.post(options, function (error, response, body) {
+    console.error("error:", error); // Print the error
+    console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
+    console.log("body:", body); // Print the data received
+
+    // res.send(body); //Display the response on the website
+    res.render("pages/crawler-output", {
+      title: "DARK-HACK",
+      test_string: body,
+    });
+  });
 });
 
 router.get("/requestPage", function (req, res) {
