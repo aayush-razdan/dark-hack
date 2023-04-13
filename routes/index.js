@@ -14,6 +14,11 @@ router.get("/form", function (req, res) {
   res.render("pages/form", { title: "DARK-HACK" });
 });
 
+
+/* GET form page. */
+router.get("/tableData", function (req, res) {
+  res.render("pages/tableData", { title: "DARK-HACK" });
+});
 /* POST form page. */
 router.post("/form", function (req, res) {
   // res.send(JSON.stringify(req.body));
