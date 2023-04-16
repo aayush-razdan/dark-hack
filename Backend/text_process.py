@@ -49,7 +49,9 @@ def porn_score(text):
     detected = ratio >= DETECTION_THRESHOLD
     print("\nRatio:", ratio)
     print("Detected", detected)
-    return {"child pornography":str(ratio)}
+    # return {"child pornography":str(ratio)}
+    return str(ratio)
+
 
 # def load_model():
 #     global vectorizer
@@ -76,10 +78,42 @@ def drug_score(text):
     detected = ratio >= DETECTION_THRESHOLD
     print("\nRatio:", ratio)
     print("Detected", detected)
-    return {"drugs":str(ratio)}
+    # return {"drugs":str(ratio)}
+    return str(ratio)
+
+# def intelligence(text):
+#     intelligence_data={}
+#     text_block = text
+#     #r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})')
+#     #phone_numbers = r.findall(text_block)
+#     #print(phone_numbers)
+#     for match in phonenumbers.PhoneNumberMatcher(text_block, ""):
+#         number=(phonenumbers.format_number(match.number, phonenumbers.PhoneNumberFormat.E164))
+#         my_number = phonenumbers.parse(number)
+#         number_info+=my_number
+#         if phonenumbers.is_valid_number(my_number):
+#             number_info+=","+(carrier.name_for_number(my_number, "en"))
+#             number_info+=","+timezone.time_zones_for_number(my_number)
+#             number_info+=","+(geocoder.description_for_number(my_number, 'en'))
+#         intelligence_data['phone_numbers']=number_info
+    
+#     r = re.compile(r'[\w\.-]+@[\w\.-]+')
+#     emails=r.findall(text_block)
+#     intelligence_data['emails']=emails
+#     print(emails)
+    
+#     names = []
+#     sentences = ie_preprocess(text_block)
+#     for tagged_sentence in sentences:
+#         for chunk in nltk.ne_chunk(tagged_sentence):
+#             if type(chunk) == nltk.tree.Tree:
+#                 if chunk.label() == 'PERSON':
+#                     names.append(' '.join([c[0] for c in chunk]))
+#     intelligence_data['names']=names
+    
+#     return intelligence_data
 
 def intelligence(text):
-    intelligence_data={}
     text_block = text
     #r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})')
     #phone_numbers = r.findall(text_block)
@@ -92,11 +126,14 @@ def intelligence(text):
             number_info+=","+(carrier.name_for_number(my_number, "en"))
             number_info+=","+timezone.time_zones_for_number(my_number)
             number_info+=","+(geocoder.description_for_number(my_number, 'en'))
-        intelligence_data['phone_numbers']=number_info
+        intelligence_data += number_info
     
     r = re.compile(r'[\w\.-]+@[\w\.-]+')
     emails=r.findall(text_block)
-    intelligence_data['emails']=emails
+    intelligence += "\n"
+    for(email in emails):
+        intelligence+=email
+        intelligence+=" "
     print(emails)
     
     names = []
@@ -106,11 +143,10 @@ def intelligence(text):
             if type(chunk) == nltk.tree.Tree:
                 if chunk.label() == 'PERSON':
                     names.append(' '.join([c[0] for c in chunk]))
-    intelligence_data['names']=names
-    
-    return intelligence_data
-
-
+    intelligence+=" "
+    for(name in names):
+        intelligence+=str(name)
+    return intelligence
 
 
 def ie_preprocess(document):
